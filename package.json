@@ -1,0 +1,81 @@
+{
+  "name": "ExpressPassport",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --compilers js:babel-core/register --require ./src/test/helper/test_helper.js \"src/test/**/*.js\"",
+    "test:watch": "npm run test -- --watch",
+    "start": "babel-node ./src/app.js --source-maps",
+    "clean": "rm -rf build && mkdir build",
+    "build-server": "babel -d ./build ./src -s",
+    "build": "npm run clean && npm run build-server",
+    "debug": "node --debug ./build/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xierui0423/ExpressPassport.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xierui0423/ExpressPassport/issues"
+  },
+  "homepage": "https://github.com/xierui0423/ExpressPassport#readme",
+  "devDependencies": {
+    "babel-cli": "^6.14.0",
+    "babel-core": "^6.14.0",
+    "babel-preset-es2015": "^6.14.0",
+    "chai": "^3.5.0",
+    "eslint": "^3.4.0",
+    "eslint-config-airbnb": "^11.0.0",
+    "eslint-plugin-import": "^1.14.0",
+    "eslint-plugin-jsx-a11y": "^2.2.1",
+    "mocha": "^3.0.2"
+  },
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
+  },
+  "dependencies": {
+    "request": "^2.78.0",
+    "request-promise": "^4.1.1",
+    "socket.io": "^1.7.2"
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": false,
+      "node": true
+    },
+    "extends": [
+      "airbnb/base"
+    ],
+    "rules": {
+      "indent": [
+        2,
+        4,
+        {
+          "SwitchCase": 1
+        }
+      ],
+      "new-cap": [
+        2,
+        {
+          "capIsNewExceptions": [
+            "Map",
+            "List"
+          ]
+        }
+      ],
+      "linebreak-style": [
+        2,
+        "windows"
+      ],
+      "import/prefer-default-export": [
+        0
+      ]
+    }
+  }
+}
