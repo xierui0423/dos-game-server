@@ -1,9 +1,37 @@
-import io from 'socket.io';
+import socketIo from 'socket.io';
+import socketioJwt from 'socketio-jwt';
+import config from '../config';
 
+// TODO Authentication
 export default () => {
-    const socket = io();
-    socket.on('connection', (client) => {
-        client.emit('test', 'Hello');
+    const io = socketIo();
+
+    // server.set('authorization', socketioJwt.authorize({
+    //     secret: config.server.authKey,
+    //     handshake: true,
+    // }));
+
+    io.sockets
+        .on('connection', (socket) => {
+            // once a client has connected,
+            // we expect to get a ping from them saying what room they want to join
+            socket.on('joinRoom', (room) => {
+                socket.join(room);
+            });
+
+            socket.on('send', (message) => {
+                // socket.broadcast.to(message.room).emit('receive', message.message);
+                io.sockets.in(message.room).emit('receive', {
+                    senderId: socket.id,
+                    message: message.message,
+                })
+                // console.log(message);
+            });
+        });
+
+
+
+    io.listen(config.server.port, () => {
+        console.log('listening on http://localhost:9999');
     });
-    socket.listen(9999);
 };
