@@ -15,21 +15,19 @@ export default () => {
         .on('connection', (socket) => {
             // once a client has connected,
             // we expect to get a ping from them saying what room they want to join
-            socket.on('joinRoom', (room) => {
+            socket.on('join:room', (room) => {
                 socket.join(room);
             });
 
             socket.on('send', (message) => {
                 // socket.broadcast.to(message.room).emit('receive', message.message);
-                io.sockets.in(message.room).emit('receive', {
+                io.sockets.in(message.room).emit('receive:message', {
                     senderId: socket.id,
                     message: message.message,
-                })
+                });
                 // console.log(message);
             });
         });
-
-
 
     io.listen(config.server.port, () => {
         console.log('listening on http://localhost:9999');
