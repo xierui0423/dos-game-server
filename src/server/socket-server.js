@@ -25,12 +25,6 @@ export default () => {
                 id: socket.decoded_token.userId,
             };
 
-            // // once a client has connected,
-            // // we expect to get a ping from them saying what room they want to join
-            // socket.on('join:room', (room) => {
-            //     socket.join(room);
-            // });
-
             const currentMatch = matches.find(match => match.userIds.includes(socket.user.id));
             if (currentMatch) {
                 socket.join(currentMatch.id);
@@ -64,18 +58,12 @@ export default () => {
                 }
             });
 
-            socket.on('send', (message) => {
+            socket.on('send:action', (message) => {
                 // socket.broadcast.to(message.room).emit('receive', message.message);
                 io.sockets.in(message.room).emit('fetch:record', {
                     senderId: socket.user.id,
                     message: message.message,
                 });
-
-                // io.sockets.emit('fetch:record', {
-                //     senderId: socket.id,
-                //     message: message.message,
-                // });
-                // console.log(message);
             });
         });
 
